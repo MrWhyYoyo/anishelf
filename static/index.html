@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>AniShelf</title>
+  <!-- App icon: PNG/ICO made by tools/make_icons.py. Windows uses these for the taskbar and window. -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/static/icons/icon-32.png?v=115">
+  <link rel="icon" type="image/png" sizes="16x16" href="/static/icons/icon-16.png?v=115">
+  <link rel="icon" type="image/png" sizes="192x192" href="/static/icons/icon-192.png?v=115">
+  <link rel="apple-touch-icon" href="/static/icons/icon-180.png?v=115">
+  <link rel="manifest" href="/static/manifest.webmanifest">
+  <meta name="theme-color" content="#000000">
+  <!-- Inter from Google Fonts; the app falls back to system-ui when offline. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/app.css">
+  <link rel="stylesheet" href="/static/css/show-state.css">
+  <link rel="stylesheet" href="/static/css/inbox.css">
+  <link rel="stylesheet" href="/static/css/splash.css">
+  <link rel="stylesheet" href="/static/css/games.css">
+  <link rel="stylesheet" href="/static/css/profile.css">
+  <link rel="stylesheet" href="/static/css/wrapped.css">
+  <link rel="stylesheet" href="/static/css/history.css">
+  <link rel="stylesheet" href="/static/css/watching.css">
+  <link rel="stylesheet" href="/static/css/manga.css">
+  <link rel="stylesheet" href="/static/css/themes.css">
+  <link rel="stylesheet" href="/static/css/buddy.css">
+  <link rel="stylesheet" href="/static/css/library-extras.css"><!-- Bulk edit + custom collections -->
+  <link rel="stylesheet" href="/static/css/discover.css"><!-- Seasonal chart, Up next queue, taste profile -->
+  <link rel="stylesheet" href="/static/css/qol.css"><!-- Undo toasts, Ctrl+K quick jump, auto backups -->
+  <link rel="stylesheet" href="/static/css/feel.css"><!-- Press, ripple, busy/done, loading line, page enter (1.2.1) -->
+  <!-- Apply the saved colour theme before the first paint (no flash). Same key as static/js/theme.js. -->
+  <script>try { var t = localStorage.getItem('anishelf.theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+  <script type="module" src="/static/js/main.js"></script>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><mask id="ani-blossom" maskUnits="userSpaceOnUse" x="0" y="0" width="64" height="64"><rect width="64" height="64" fill="#fff"/><g fill="#000"><ellipse cx="32" cy="18" rx="3.6" ry="5" transform="rotate(0 32 25)"/><ellipse cx="32" cy="18" rx="3.6" ry="5" transform="rotate(72 32 25)"/><ellipse cx="32" cy="18" rx="3.6" ry="5" transform="rotate(144 32 25)"/><ellipse cx="32" cy="18" rx="3.6" ry="5" transform="rotate(216 32 25)"/><ellipse cx="32" cy="18" rx="3.6" ry="5" transform="rotate(288 32 25)"/><circle cx="32" cy="25" r="3.2"/></g></mask></defs></svg>
+  <div class="splash" id="splash" role="status" aria-live="polite" hidden>
+    <div class="splash-inner">
+      <svg class="splash-mark" viewBox="0 0 64 64" aria-hidden="true"><path mask="url(#ani-blossom)" d="M16 6h32a4 4 0 0 1 4 4v48L32 46 12 58V10a4 4 0 0 1 4-4z"/><circle cx="32" cy="25" r="2"/></svg>
+      <p class="splash-name">AniShelf</p>
+      <div class="splash-bar" aria-hidden="true"><span id="splash-bar"></span></div>
+      <p class="splash-step" id="splash-step">Starting up</p>
+    </div>
+  </div>
+  <div class="app">
+    <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+      <a class="brand" href="#/" aria-label="AniShelf home">
+        <svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true"><path mask="url(#ani-blossom)" d="M16 6h32a4 4 0 0 1 4 4v48L32 46 12 58V10a4 4 0 0 1 4-4z"/><circle cx="32" cy="25" r="2"/></svg>
+        <span class="brand-name">AniShelf</span>
+      </a>
+      <nav class="nav" aria-label="Watch">
+        <a href="#/" data-nav="home" title="Home">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>
+          <span>Home</span>
+        </a>
+        <a href="#/library" data-nav="library" title="Library">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="4" height="16" rx="1"/><rect x="9" y="4" width="4" height="16" rx="1"/><path d="m15.5 5.2 3.9-1 3.6 14.6-3.9 1z"/></svg>
+          <span>Library</span>
+        </a>
+        <a href="#/search" data-nav="search" title="Search (/)">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <span>Find anime</span>
+        </a>
+        <a href="#/season" data-nav="season" title="Seasonal chart">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+          <span>Season</span>
+        </a>
+        <a href="#/queue" data-nav="queue" title="Up next">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h11M4 12h11M4 18h7"/><path d="m17 15 3 3-3 3"/></svg>
+          <span>Up next</span>
+        </a>
+        <a href="#/calendar" data-nav="calendar" title="Airing calendar">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+          <span>Calendar</span>
+        </a>
+      </nav>
+      <p class="nav-group">Read</p>
+      <nav class="nav" aria-label="Read">
+        <a href="#/manga" data-nav="manga" title="Manga">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5C10.3 5.2 7.6 4.5 3 4.5v14c4.6 0 7.3.7 9 2 1.7-1.3 4.4-2 9-2v-14c-4.6 0-7.3.7-9 2z"/><path d="M12 6.5v14"/></svg>
+          <span>Manga</span>
+        </a>
+      </nav>
+      <p class="nav-group">Your shelf</p>
+      <nav class="nav" aria-label="Your shelf">
+        <a href="#/random" data-nav="random" title="Tonight's pick">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1.2" fill="currentColor"/><circle cx="15.5" cy="15.5" r="1.2" fill="currentColor"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/></svg>
+          <span>Tonight's pick</span>
+        </a>
+        <a href="#/rankings" data-nav="rankings" title="Rankings">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg>
+          <span>Rankings</span>
+        </a>
+        <a href="#/games" data-nav="games" title="Mini games">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.5 7h9a4.5 4.5 0 0 1 4.4 5.4l-1 4.6a2.4 2.4 0 0 1-4.1 1.2L13.6 16h-3.2l-2.2 2.2a2.4 2.4 0 0 1-4.1-1.2l-1-4.6A4.5 4.5 0 0 1 7.5 7z"/><path d="M8 10.5v3M6.5 12h3"/><circle cx="15.5" cy="11" r=".9" fill="currentColor"/><circle cx="17" cy="13" r=".9" fill="currentColor"/></svg>
+          <span>Mini games</span>
+        </a>
+        <a href="#/stats" data-nav="stats" title="Stats">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>
+          <span>Stats</span>
+        </a>
+        <a href="#/wrapped" data-nav="wrapped" title="Anime Wrapped">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11h16v9H4zM3 7h18v4H3zM12 7v13"/><path d="M12 7C10.5 4 7 4 7 5.5S9.5 7 12 7zM12 7c1.5-3 5-3 5-1.5S14.5 7 12 7z"/></svg>
+          <span>Wrapped</span>
+        </a>
+        <a href="#/diary" data-nav="diary" title="Watch diary">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M5 17a3 3 0 0 1 3-3h11M9 8h6"/></svg>
+          <span>Diary</span>
+        </a>
+        <a href="#/profile" data-nav="profile" title="Profile">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+          <span>Profile</span>
+        </a>
+      </nav>
+      <nav class="nav nav-bottom" aria-label="App">
+        <a href="#/settings" data-nav="settings" title="Settings">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+          <span>Settings</span>
+        </a>
+      </nav>
+    </aside>
+
+    <header class="topbar">
+      <button type="button" class="menu-btn" id="menu-btn" aria-label="Open menu" aria-controls="sidebar" aria-expanded="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <a class="topbar-brand" href="#/" aria-label="AniShelf home">
+        <svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true"><path mask="url(#ani-blossom)" d="M16 6h32a4 4 0 0 1 4 4v48L32 46 12 58V10a4 4 0 0 1 4-4z"/><circle cx="32" cy="25" r="2"/></svg>
+      </a>
+      <div class="topbar-context" id="topbar-context"></div>
+      <form class="topbar-search" id="topbar-search" role="search">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input type="search" id="topbar-q" placeholder="Search anime" autocomplete="off" spellcheck="false" aria-label="Search anime">
+        <kbd>/</kbd>
+      </form>
+      <div class="inbox" id="inbox">
+        <button type="button" class="inbox-btn" id="inbox-btn" aria-haspopup="dialog" aria-expanded="false" aria-controls="inbox-panel" title="Season news">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 10a6 6 0 0 1 12 0c0 4 1.5 6 2 7H4c.5-1 2-3 2-7z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>
+          <span class="inbox-dot" id="inbox-dot" hidden></span>
+          <span class="sr-only" id="inbox-label">Season news</span>
+        </button>
+        <div class="inbox-panel" id="inbox-panel" role="dialog" aria-label="Season news" hidden></div>
+      </div>
+      <a href="#/profile" class="level-widget" id="level-widget" hidden>
+        <span class="level-badge" id="level-badge">
+          <span class="avatar avatar-side" id="side-avatar" data-initial="?"></span>
+        </span>
+        <span class="level-info">
+          <span class="level-line"><span class="level-title" id="lvl-title">Newcomer</span><span class="lvl-chip" id="lvl-num">1</span></span>
+          <span class="level-bar"><span id="lvl-bar" style="width:0%"></span></span>
+          <span class="level-xp" id="lvl-xp">0 XP</span>
+        </span>
+      </a>
+    </header>
+
+    <main id="view" class="main" tabindex="-1"></main>
+  </div>
+  <div id="offline" class="offline-banner" role="alert" hidden>
+    Can't reach the AniShelf server. Is it still running? <button type="button" id="offline-retry" class="btn btn-sm">Retry</button>
+  </div>
+  <div id="toasts" class="toasts" aria-live="polite"></div>
+  <noscript><p style="padding:2rem;color:#fff">AniShelf needs JavaScript enabled.</p></noscript>
+</body>
+</html>

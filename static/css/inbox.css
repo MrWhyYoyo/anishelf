@@ -1,0 +1,34 @@
+/* Season inbox (AniShelf 1.2): bell in the top bar + a panel under it. */
+.inbox { position: relative; flex: none; display: flex; align-items: center; }
+.inbox-btn {
+  position: relative; width: 36px; height: 36px; display: grid; place-items: center;
+  border: 0; border-radius: 50%; background: none; color: var(--muted); cursor: pointer;
+}
+.inbox-btn:hover, .inbox-btn[aria-expanded="true"] { background: var(--active); color: var(--text); }
+.inbox-btn:focus-visible { outline: 2px solid var(--text); outline-offset: 1px; }
+.inbox-btn svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.inbox-dot { position: absolute; top: 7px; right: 8px; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 2px var(--ground); } /* taste-skill-ignore: inset outline, selection ring or floating overlay */
+.inbox-dot[hidden] { display: none; }
+
+.inbox-panel {
+  position: absolute; top: calc(100% + 8px); right: 0; z-index: 90;
+  width: min(380px, calc(100vw - 24px)); max-height: min(520px, calc(100vh - 90px)); overflow: auto;
+  padding: 10px; border-radius: 12px; background: #141414; border: 1px solid #2a2a2a;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6); /* taste-skill-ignore: inset outline, selection ring or floating overlay */
+}
+.inbox-panel[hidden] { display: none; }
+.inbox-headline { display: flex; align-items: baseline; justify-content: space-between; padding: 4px 6px 10px; }
+.inbox-list { display: flex; flex-direction: column; gap: 2px; }
+.inbox-item { display: flex; align-items: center; gap: 12px; padding: 8px 6px; border-radius: 8px; color: var(--text); text-decoration: none; }
+.inbox-item:hover { background: var(--active); text-decoration: none; }
+.inbox-cover { width: 36px; flex: none; border-radius: 5px; }
+.inbox-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; }
+.inbox-show { font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.inbox-head { font-weight: 500; }
+.inbox-item.unread .inbox-head { color: var(--text); }
+.inbox-new { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex: none; }
+.inbox-empty { padding: 4px 6px 8px; margin: 0; }
+.inbox-all { display: block; padding: 10px 6px 4px; color: var(--muted); }
+
+/* Theme support: panels follow the theme's surface colours */
+:root[data-theme]:not([data-theme="black"]) .inbox-panel { background: var(--surface); border-color: var(--border); }

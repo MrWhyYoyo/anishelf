@@ -1,0 +1,95 @@
+/* ==========================================================================
+   Watching (AniShelf 1.1): Home extras, airing calendar, mood picker.
+   True-black flat: no gradients or glows. --accent marks data only
+   (episode numbers, the next-episode outline), never buttons.
+   ========================================================================== */
+
+/* ---------------------------------------------------------------- Home extras */
+#home-quests:empty { display: none; }
+#home-quests { margin-bottom: var(--gap); }
+
+.home-extras {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* one visible panel takes the full row */
+  gap: var(--gap);
+  margin-top: var(--gap);
+}
+.home-extras:not(:has(> .panel:not([hidden]))) { display: none; }
+.home-extras .panel + .panel { margin-top: 0; }
+.home-nudges { margin-top: var(--gap); }
+
+.memory-list, .nudge-list { display: flex; flex-direction: column; }
+.memory-row {
+  display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 12px; align-items: center;
+  padding: 8px 0; border-top: 1px solid var(--rule); color: var(--muted);
+}
+.memory-row:first-child { border-top: 0; padding-top: 0; }
+.memory-row:hover { text-decoration: none; }
+.memory-row:hover strong { text-decoration: underline; text-underline-offset: 3px; }
+.memory-row .cover, .nudge-row .cover { width: 36px; border-radius: 4px; }
+.memory-row strong { color: var(--text); font-weight: 500; }
+
+.nudge-row {
+  display: grid; grid-template-columns: 36px minmax(0, 1fr) auto; gap: 12px; align-items: center;
+  padding: 8px 0; border-top: 1px solid var(--rule);
+}
+.nudge-row:first-child { border-top: 0; padding-top: 0; }
+.nudge-text { color: var(--text); }
+.nudge-row a.q-sub { color: var(--muted); }
+
+/* ---------------------------------------------------------------- calendar */
+.cal-next { margin-bottom: var(--gap); }
+.cal-next-link {
+  display: grid; grid-template-columns: 48px minmax(0, 1fr) auto; gap: 14px; align-items: center; color: var(--text);
+}
+.cal-next-link:hover { text-decoration: none; }
+.cal-next-link .cover { width: 48px; border-radius: 6px; }
+.cal-label { font-size: var(--fs-small); color: var(--faint); }
+.cal-next-title { font-weight: 600; font-size: 16px; }
+.cal-count { font-size: 24px; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--accent-text); white-space: nowrap; }
+
+.cal-week {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--border); /* 1px rules between the days */
+  border-radius: var(--radius-card);
+  overflow: hidden;
+}
+.cal-day { background: var(--surface); padding: 14px 12px; min-height: 180px; min-width: 0; }
+.cal-day-name { font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 12px; }
+.cal-day.is-today .cal-day-name { color: var(--text); }
+.cal-empty { font-size: var(--fs-small); color: var(--faint); }
+.cal-list { display: flex; flex-direction: column; gap: 10px; }
+.cal-item {
+  display: grid; grid-template-columns: 32px minmax(0, 1fr); gap: 8px; align-items: start;
+  padding: 6px; margin: -6px; border-radius: 8px; border: 1px solid transparent; color: var(--text);
+}
+.cal-item:hover { text-decoration: none; background: var(--active); }
+.cal-item.is-next { border-color: var(--accent); } /* the next episode is outlined, like the strip */
+.cal-item .cover { width: 32px; border-radius: 4px; }
+.cal-text { display: flex; flex-direction: column; min-width: 0; }
+.cal-title { font-size: 13px; font-weight: 500; line-height: 17px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.cal-sub { font-size: var(--fs-small); color: var(--muted); font-variant-numeric: tabular-nums; }
+.cal-ep { color: var(--accent-text); }
+
+@media (max-width: 1100px) {
+  .cal-week { grid-template-columns: minmax(0, 1fr); }
+  .cal-day { min-height: 0; }
+  .cal-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+}
+@media (max-width: 480px) {
+  .cal-next-link { grid-template-columns: 40px minmax(0, 1fr); }
+  .cal-next-link .cover { width: 40px; }
+  .cal-count { grid-column: 2; font-size: 18px; }
+}
+
+/* ---------------------------------------------------------------- mood picker */
+.mood-picker { display: flex; flex-wrap: wrap; gap: 6px; }
+.mood-picker button {
+  height: 30px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--control);
+  background: transparent; color: var(--muted); font: inherit; font-size: 13px; font-weight: 500; cursor: pointer;
+}
+.mood-picker button:hover { color: var(--text); }
+.mood-picker button.active { background: var(--raised); border-color: var(--raised); color: var(--text); }
+.mood-picker button:focus-visible { outline: 2px solid #ffffff; outline-offset: 2px; }

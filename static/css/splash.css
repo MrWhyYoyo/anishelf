@@ -1,0 +1,16 @@
+/* Loading screen (static/js/boot.js). Same ground as the app, the brand mark, and one thin
+   progress bar in the data hue: progress is data. Only opacity moves. */
+.splash {
+  position: fixed; inset: 0; z-index: 1000;
+  display: grid; place-items: center;
+  background: var(--ground);
+  transition: opacity 0.2s var(--ease);
+}
+.splash[hidden] { display: none; }
+.splash.is-leaving { opacity: 0; }
+.splash-inner { width: min(280px, calc(100vw - 32px)); display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.splash-mark { width: 44px; height: 44px; fill: var(--brand); }
+.splash-name { font-size: var(--fs-title); font-weight: 600; color: var(--text); }
+.splash-bar { width: 100%; height: 3px; border-radius: 2px; background: var(--raised); overflow: hidden; }
+.splash-bar span { display: block; height: 100%; width: 0; background: var(--accent); transition: width 0.25s var(--ease); }
+.splash-step { min-height: 18px; font-size: var(--fs-small); color: var(--faint); text-align: center; }

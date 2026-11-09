@@ -1,0 +1,42 @@
+/* Manga (AniShelf 1.15): shelf, manga page and the Home "Continue reading" card.
+   Same true-black flat style as the rest (docs/DESIGN.md): the per-title --accent only marks data
+   (the chapter bar), never buttons. */
+
+/* Manga statuses reuse the anime status colours */
+.status-reading { --c: var(--c-watching); }
+.status-plan_to_read { --c: var(--c-plan_to_watch); }
+
+/* The chapter bar: one thin bar at the true ratio (manga can have 1000+ chapters) */
+.ch-bar { height: 4px; border-radius: 2px; background: var(--cell-empty, #2a2a2a); overflow: hidden; margin-top: 6px; }
+.ch-bar > span { display: block; height: 100%; background: var(--accent); transition: width 200ms ease-out; }
+.ch-bar.lg { height: 8px; border-radius: 4px; margin: 10px 0 6px; }
+@media (prefers-reduced-motion: reduce) { .ch-bar > span { transition: none; } }
+
+/* Shelf page */
+.manga-results { margin: 6px 0 28px; }
+.manga-results[hidden] { display: none; }
+
+/* Manga page: progress panel */
+.m-progress { display: flex; flex-direction: column; gap: 6px; }
+.m-progress .big { font-size: 24px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.m-progress .tracker-buttons { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+.m-fields { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--rule, #1a1a1a); }
+.m-set { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 13px; }
+.m-set input { width: 92px; font-variant-numeric: tabular-nums; }
+/* "I've read [5] volumes [Update]" + the "-> up to chapter 42" hint on its own line */
+.m-vol { flex-wrap: wrap; }
+.m-vol-hint { flex-basis: 100%; min-height: 1.2em; }
+.num { font-variant-numeric: tabular-nums; }
+#m-journal .score-picker { margin-bottom: 16px; }
+
+/* Home card */
+.manga-home .home-next .ch-bar { max-width: 420px; }
+.manga-queue { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--rule, #1a1a1a); }
+.manga-queue-row .cover { width: 36px; border-radius: 4px; }
+
+/* "Based on the manga" panel on the anime page (detail.js) */
+.source-link { display: grid; grid-template-columns: 48px minmax(0, 1fr) auto; align-items: center; gap: 14px; color: var(--text); }
+.source-link:hover { text-decoration: none; }
+.source-link:hover strong { text-decoration: underline; text-underline-offset: 3px; }
+.source-cover { width: 48px; }
+.source-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }

@@ -1,0 +1,341 @@
+/* ==========================================================================
+   Themes (Settings > Theme). The default, true black, lives in app.css :root.
+   A theme only overrides NEUTRAL tokens. --accent is never set here: it
+   stays the per-anime data hue (and torii vermilion by default).
+   The dark themes keep light text on a dark ground, so the white primary
+   pill, the white focus ring and the white "next episode" outline still read.
+   Paper is the one light theme; it has its own block of fixes further down.
+
+   Contrast: every theme keeps --text, --muted and --faint at WCAG AA
+   (4.5:1 or more) against both --surface and --ground.
+   ========================================================================== */
+
+/* Warm dark: brown-black ground, greys leaning warm. */
+:root[data-theme="warm"] {
+  --ground: #0d0b09;
+  --surface: #171411;
+  --raised: #302b26;
+  --active: #221e1a;
+  --border: #211d19;
+  --rule: #26221d;
+  --control: #4d463f;
+  --text: #fbf7f1;
+  --muted: #bdb4a9;
+  --faint: #9c9286;
+  --nav-idle: #c2b9ae;
+  --cell-empty: #302b26;
+  --popup: #1f1b17;
+  --popup-border: #362f29;
+  --hover: #1c1814;
+}
+
+/* Midnight blue: deep navy grounds, cool greys. */
+:root[data-theme="midnight"] {
+  --ground: #070b14;
+  --surface: #0f1524;
+  --raised: #24304a;
+  --active: #182036;
+  --border: #161e30;
+  --rule: #1a2336;
+  --control: #3c4a66;
+  --text: #f3f6fc;
+  --muted: #aab4c8;
+  --faint: #8a95ab;
+  --nav-idle: #b3bdd0;
+  --cell-empty: #24304a;
+  --popup: #151d30;
+  --popup-border: #2a3654;
+  --hover: #131a2c;
+}
+
+/* Ink: a lighter, paper-like dark grey with crisp off-white "ink" text, like ink-and-paper art. */
+:root[data-theme="ink"] {
+  --ground: #1c1b19;
+  --surface: #262521;
+  --raised: #3e3c36;
+  --active: #302e2a;
+  --border: #302f2b;
+  --rule: #35332e;
+  --control: #5e5b54;
+  --text: #f7f4ec;
+  --muted: #cdc8bc;
+  --faint: #aaa598;
+  --nav-idle: #d3cec3;
+  --cell-empty: #3e3c36;
+  --popup: #2e2d29;
+  --popup-border: #47443e;
+  --hover: #2b2a26;
+}
+
+/* Sakura night: plum-tinted darks, soft pink-grey text, like a spring night under the trees. */
+:root[data-theme="sakura"] {
+  --ground: #0f0a0e;
+  --surface: #1a1218;
+  --raised: #372a33;
+  --active: #261c23;
+  --border: #241a21;
+  --rule: #2a1f27;
+  --control: #54434e;
+  --text: #fbf2f6;
+  --muted: #cdb9c3;
+  --faint: #a8929d;
+  --nav-idle: #d2bfc8;
+  --cell-empty: #372a33;
+  --popup: #22181f;
+  --popup-border: #3c2e38;
+  --hover: #1f161c;
+}
+
+/* Matcha: deep green-black grounds with warm cream text, like a tea house after dark. */
+:root[data-theme="matcha"] {
+  --ground: #080c09;
+  --surface: #111813;
+  --raised: #28352b;
+  --active: #1a241c;
+  --border: #18211a;
+  --rule: #1c261e;
+  --control: #435346;
+  --text: #f5f1e4;
+  --muted: #c3bfa9;
+  --faint: #a09d89;
+  --nav-idle: #c9c5af;
+  --cell-empty: #28352b;
+  --popup: #172019;
+  --popup-border: #2d3b30;
+  --hover: #151d17;
+}
+
+/* Ocean dusk: teal-navy, the sea just after sunset. */
+:root[data-theme="ocean"] {
+  --ground: #061012;
+  --surface: #0d1a1e;
+  --raised: #20373d;
+  --active: #142529;
+  --border: #132226;
+  --rule: #17272b;
+  --control: #36535a;
+  --text: #eef8f8;
+  --muted: #a7c0c2;
+  --faint: #88a3a6;
+  --nav-idle: #b0c8ca;
+  --cell-empty: #20373d;
+  --popup: #122327;
+  --popup-border: #27424a;
+  --hover: #102024;
+}
+
+/* Lavender: violet-tinted greys. */
+:root[data-theme="lavender"] {
+  --ground: #0c0a12;
+  --surface: #16131e;
+  --raised: #2f2a3d;
+  --active: #211d2c;
+  --border: #1f1b2a;
+  --rule: #241f30;
+  --control: #4b4460;
+  --text: #f5f2fc;
+  --muted: #bdb5d0;
+  --faint: #9c94b1;
+  --nav-idle: #c3bcd5;
+  --cell-empty: #2f2a3d;
+  --popup: #1d1928;
+  --popup-border: #363047;
+  --hover: #1a1723;
+}
+
+/* Paper (light): off-white ground, white cards, near-black ink.
+   Besides the neutral greys it darkens two semantic tones that were tuned
+   for black (lime "positive" and the pale "completed" grey), because as text
+   on white they would be unreadable. --accent itself is still untouched. */
+:root[data-theme="paper"] {
+  color-scheme: light;
+  --ground: #f3f1ec;
+  --surface: #ffffff;
+  --raised: #e3dfd7;
+  --active: #ebe8e2;
+  --border: #e2ded6;
+  --rule: #dcd8cf;
+  --control: #a8a296;
+  --text: #17150f;
+  --muted: #4f4a42;
+  --faint: #625d54;
+  --nav-idle: #4f4a42;
+  --cell-empty: #e3dfd7;
+  --popup: #ffffff;
+  --popup-border: #d6d1c8;
+  --hover: #f8f6f2;
+  --c-completed: #3d3a35;
+  --c-plan_to_watch: #8b867d;
+  --positive: #3b7a0e;
+  --neg-ink: #b8232a;
+  --pill-negative-bg: #fdeceb;
+  --pill-negative-ink: #b3261e;
+}
+
+/* A few spots in app.css use literal greys tuned for pure black. Under any
+   other theme, point them at the theme's tokens so nothing looks like a black
+   hole on a navy or grey ground. True black (no data-theme, or "black") is left
+   exactly as it was. The fallbacks after the commas only matter if an unknown
+   theme id ever ends up in storage. */
+:root[data-theme]:not([data-theme="black"]) .level-widget:hover { background: var(--active); }
+:root[data-theme]:not([data-theme="black"]) .menu,
+:root[data-theme]:not([data-theme="black"]) .toast,
+:root[data-theme]:not([data-theme="black"]) .prompt-card {
+  background: var(--popup, #1a1a1a); border-color: var(--popup-border, #2e2e2e);
+}
+:root[data-theme]:not([data-theme="black"]) .modal { border-color: var(--popup-border, #222); }
+:root[data-theme]:not([data-theme="black"]) .kpi,
+:root[data-theme]:not([data-theme="black"]) .avatar-modal-foot { border-color: var(--rule); }
+:root[data-theme]:not([data-theme="black"]) .cast-card.skeleton { background: var(--active); }
+:root[data-theme]:not([data-theme="black"]) ::selection { background: var(--control); }
+:root[data-theme]:not([data-theme="black"]) * { scrollbar-color: var(--raised) transparent; }
+:root[data-theme]:not([data-theme="black"]) ::-webkit-scrollbar-thumb { background: var(--raised); }
+
+/* ==========================================================================
+   Paper fixes. app.css was written for a black ground, so every literal
+   white (pills, rings, outlines) and every literal dark grey (hovers, empty
+   cells, chart fills) is flipped here. Things that sit ON a picture (banner
+   scrims, the pills on covers, the Top 5 rank, the avatar "Change" veil) keep
+   their dark scrim and white text, because the picture underneath is the same
+   in every theme.
+   ========================================================================== */
+:root[data-theme="paper"] :focus-visible { outline-color: var(--text); }
+:root[data-theme="paper"] ::selection { background: #d8d2c6; }
+:root[data-theme="paper"] ::-webkit-scrollbar-thumb { background: #cfc9be; }
+
+/* the one primary action stays "inverted": on paper that means an ink pill with white text */
+:root[data-theme="paper"] .btn-primary,
+:root[data-theme="paper"] .watch-cta { background: var(--text); border-color: var(--text); color: #ffffff; }
+:root[data-theme="paper"] .btn-primary:hover:not(:disabled),
+:root[data-theme="paper"] .watch-cta:hover { background: #3a3730; border-color: #3a3730; }
+:root[data-theme="paper"] .btn:hover:not(:disabled) { border-color: #857f74; }
+:root[data-theme="paper"] .btn-primary:hover:not(:disabled) { border-color: #3a3730; }
+:root[data-theme="paper"] .btn-accent:hover:not(:disabled) { background: #d6d1c8; border-color: #d6d1c8; }
+:root[data-theme="paper"] .btn-danger,
+:root[data-theme="paper"] .toast-error { border-color: #e7b4b1; }
+:root[data-theme="paper"] .btn-danger:hover:not(:disabled) { background: #fdeceb; border-color: var(--negative); }
+:root[data-theme="paper"] .btn-ghost:hover:not(:disabled) { border-color: transparent; }
+:root[data-theme="paper"] .icon-btn.on { border-color: #6f6a61; }
+:root[data-theme="paper"] .error-state { border-color: #e7b4b1; }
+:root[data-theme="paper"] .danger-zone { box-shadow: inset 0 0 0 1px #efc6c3; }
+:root[data-theme="paper"] .offline-banner { border-color: #e7b4b1; }
+:root[data-theme="paper"] input:focus,
+:root[data-theme="paper"] select:focus,
+:root[data-theme="paper"] textarea:focus { border-color: #6f6a61; }
+:root[data-theme="paper"] .check input,
+:root[data-theme="paper"] .pf-slider input[type="range"] { accent-color: var(--text); }
+:root[data-theme="paper"] .tabs button.active::after { background: var(--text); }
+
+/* status badges: a light pill on the page, but the dark scrim stays when it sits on a cover */
+:root[data-theme="paper"] .badge { background: var(--active); }
+:root[data-theme="paper"] .cover .badge,
+:root[data-theme="paper"] .cover .score-pill,
+:root[data-theme="paper"] .cover .seasons-pill { background: rgba(0, 0, 0, 0.78); color: #ffffff; }
+:root[data-theme="paper"] .cover .score-pill small { color: #c8c8c8; }
+:root[data-theme="paper"] .cover::before { color: #8b867d; }
+
+/* episode cells and strips */
+:root[data-theme="paper"] .ep-strip i.n { box-shadow: inset 0 0 0 1px var(--text); }
+:root[data-theme="paper"] .ep:hover:not(:disabled) { background: #d6d1c8; }
+:root[data-theme="paper"] .ep.next:not(.watched) { box-shadow: inset 0 0 0 1.5px var(--text); }
+:root[data-theme="paper"] .ep.upcoming,
+:root[data-theme="paper"] .ep:disabled { color: #8f897e; }
+:root[data-theme="paper"] .ep-play { background: var(--text); color: #ffffff; }
+:root[data-theme="paper"] .ep-pages button.active { color: #ffffff; background: var(--text); border-color: var(--text); }
+:root[data-theme="paper"] .ep-toggle:hover:not(:disabled),
+:root[data-theme="paper"] .watch-pill:hover,
+:root[data-theme="paper"] .watch-pill.crunchyroll,
+:root[data-theme="paper"] .score-picker button:hover { border-color: #6f6a61; }
+:root[data-theme="paper"] .score-picker button.filled { background: #4f4a42; border-color: #4f4a42; color: #ffffff; }
+:root[data-theme="paper"] .score-picker button.selected { background: var(--text); border-color: var(--text); color: #ffffff; }
+:root[data-theme="paper"] .season-chip:hover { background: var(--active); }
+:root[data-theme="paper"] .synopsis { color: #2e2b26; }
+:root[data-theme="paper"] .cast-portrait { background: var(--raised); }
+/* detail.js writes "All caught up" with an inline mint colour made for black */
+:root[data-theme="paper"] [style*="#6ee7b7"] { color: #0f7a55 !important; }
+
+/* popups get a soft, neutral shadow instead of the heavy black one */
+:root[data-theme="paper"] .menu { box-shadow: 0 12px 32px rgba(20, 18, 14, 0.14); }
+:root[data-theme="paper"] .toast,
+:root[data-theme="paper"] .prompt-card { box-shadow: 0 10px 28px rgba(20, 18, 14, 0.12); }
+:root[data-theme="paper"] .modal { box-shadow: 0 20px 48px rgba(20, 18, 14, 0.16); }
+:root[data-theme="paper"] .modal-overlay { background: rgba(20, 18, 14, 0.45); }
+
+/* rankings / random */
+:root[data-theme="paper"] .tier-drop.over { background: var(--active); box-shadow: inset 0 0 0 1px #857f74; }
+:root[data-theme="paper"] .tier-pool { border-color: #cfc9be; }
+:root[data-theme="paper"] .vs-card.win .cover,
+:root[data-theme="paper"] .slot-frame.landed .cover { box-shadow: 0 0 0 3px var(--text); }
+
+/* stats charts: the neutral fills were near-white */
+:root[data-theme="paper"] .bar-chart .gridline { stroke: #e2ded6; }
+:root[data-theme="paper"] .bar-chart .baseline { stroke: #a8a296; }
+:root[data-theme="paper"] .vb-label { border-top-color: #a8a296; }
+:root[data-theme="paper"] .hm-cell { background: #e8e4dd; }
+:root[data-theme="paper"] .hm-cell.today { box-shadow: inset 0 0 0 1px var(--text); }
+:root[data-theme="paper"] .hb-fill { background: #a8a296; }
+:root[data-theme="paper"] .hbar.lead .hb-fill,
+:root[data-theme="paper"] .vb-fill,
+:root[data-theme="paper"] .xp-row-bar > span { background: #3d3a35; }
+:root[data-theme="paper"] .badge-progress > span { background: #857f74; }
+
+/* text in the data hue: --accent-text is tuned to be readable on BLACK, so on paper
+   we mix the same hue with black instead. The hue still comes from the anime. */
+:root[data-theme="paper"] .game-card-best .num,
+:root[data-theme="paper"] .game-result-score,
+:root[data-theme="paper"] .zt-typed,
+:root[data-theme="paper"] .cal-count,
+:root[data-theme="paper"] .cal-ep { color: color-mix(in srgb, var(--accent) 58%, #000000); }
+
+/* profile, avatars, editors */
+:root[data-theme="paper"] .pf-level-chip { background: var(--text); color: #ffffff; }
+:root[data-theme="paper"] .pf-adjust-hint { color: #ffffff; } /* sits on the banner, stays dark */
+:root[data-theme="paper"] .avatar { background: #d6d1c8; color: var(--text); }
+:root[data-theme="paper"] .avatar-option:hover { background: var(--active); }
+:root[data-theme="paper"] .avatar-option.skeleton .avatar,
+:root[data-theme="paper"] .avatar-option.skeleton .sk-line { background: var(--active); }
+:root[data-theme="paper"] .avatar-option.selected .avatar { box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--text); }
+:root[data-theme="paper"] .avatar-check { background: var(--text); color: #ffffff; }
+:root[data-theme="paper"] .pfe-banner-option.selected .pfe-banner-pic { box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--text); }
+:root[data-theme="paper"] .pfe-badge.selected .pfe-badge-place { background: var(--text); color: #ffffff; }
+:root[data-theme="paper"] .prediction-buttons button.selected { background: var(--text); border-color: var(--text); color: #ffffff; }
+:root[data-theme="paper"] .mood-picker button:focus-visible { outline-color: var(--text); }
+
+/* mini games (the canvas games paint their own night scenes and stay dark on purpose) */
+:root[data-theme="paper"] .rbd-cell.is-reachable { border-color: #857f74; background: #cfc9be; }
+:root[data-theme="paper"] .rbd-cell.is-reachable:hover,
+:root[data-theme="paper"] .zt-demon.is-target,
+:root[data-theme="paper"] .zt-input:focus { border-color: var(--text); }
+:root[data-theme="paper"] .rbd-cell.is-trap { background: #fdeceb; }
+:root[data-theme="paper"] .rbd-ledge { border-color: #b9b3a8; }
+:root[data-theme="paper"] .rbd-cell.is-here::before { background: var(--text); box-shadow: 0 0 0 3px #ffffff; }
+:root[data-theme="paper"] .strix-slot svg,
+:root[data-theme="paper"] .strix-key svg { fill: var(--text); }
+:root[data-theme="paper"] .strix-key:hover { border-color: #857f74; }
+:root[data-theme="paper"] .zt-demon { border-color: #cfc9be; }
+
+/* ==========================================================================
+   Settings > Theme: swatch cards in a grid, the current one outlined.
+   ========================================================================== */
+.theme-options { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; margin-top: 14px; }
+.theme-option {
+  display: flex; flex-direction: column; gap: 8px; padding: 10px; border-radius: 14px;
+  border: 1px solid var(--control); background: transparent; color: var(--text); text-align: left;
+  font: inherit; cursor: pointer; transition: border-color 0.15s var(--ease);
+}
+.theme-option:hover { border-color: var(--muted); }
+.theme-option.active { border-color: var(--text); box-shadow: inset 0 0 0 1px var(--text); } /* taste-skill-ignore: inset outline, selection ring or floating overlay */
+.theme-option-name { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; font-weight: 500; }
+.theme-option-current { font-size: var(--fs-small); font-weight: 400; color: var(--muted); }
+.theme-option:not(.active) .theme-option-current { display: none; }
+.theme-swatch { display: flex; height: 40px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
+.theme-swatch span { flex: 1; display: grid; place-items: center; font-size: 13px; font-weight: 600; }
+
+/* Settings > Sound effects */
+.sound-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 14px; }
+.sound-row input[type="range"] { width: 160px; accent-color: var(--text); }
+
+/* Settings: Theme and Buddy span the full width; "dense" lets the next half-width
+   panel fill the gap they would otherwise leave in the two-column grid. */
+.settings-grid:has(.settings-wide) { grid-auto-flow: row dense; }
+.settings-grid > .panel.settings-wide { grid-column: 1 / -1; }

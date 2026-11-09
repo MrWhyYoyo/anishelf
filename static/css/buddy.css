@@ -1,0 +1,128 @@
+/* ==========================================================================
+   The buddy (static/js/buddy.js): one anime character sticker along the bottom edge.
+   The layer never takes clicks; only the buddy's own body does.
+   ========================================================================== */
+.buddy-layer {
+  position: fixed; left: 0; bottom: 0; width: 100%; height: 0;
+  z-index: 25; /* under the sidebar (30), menus, modals and toasts */
+  pointer-events: none;
+  transition: opacity 0.2s, visibility 0.2s;
+}
+.buddy-layer.is-hidden { opacity: 0; visibility: hidden; }
+
+.buddy {
+  position: absolute; left: 0; bottom: 4px; width: 60px; height: 68px;
+  will-change: transform;
+  transition: opacity 0.25s;
+}
+.buddy.is-shy { opacity: 0.15; } /* reduced-motion mode: fades instead of moving away */
+
+.buddy-body {
+  position: absolute; inset: 0;
+  pointer-events: auto; cursor: grab; touch-action: none;
+  transform-origin: 50% 100%;
+}
+.buddy-body:active { cursor: grabbing; }
+.buddy-squash { width: 100%; height: 100%; transform-origin: 50% 100%; }
+.buddy.is-dancing .buddy-squash { transform-origin: 50% 50%; }
+
+/* The sticker: the portrait clipped to a soft rounded shape. The 3 px white border is the
+   "die-cut" edge, the drop-shadow lifts it off the page. object-position keeps the face (the
+   top part of tall AniList portraits) in view. */
+.buddy-sticker {
+  position: relative; display: block; width: 100%; height: 100%;
+  border-radius: 46% 46% 42% 42% / 44% 44% 40% 40%;
+  border: 3px solid #fff; background: #f1e9f4; overflow: hidden;
+  box-sizing: border-box;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.35));
+  transform-origin: 50% 100%;
+  transition: transform 0.6s var(--ease, ease), filter 0.6s;
+}
+.buddy-sticker img {
+  display: block; width: 100%; height: 100%;
+  object-fit: cover; object-position: 50% 18%;
+  pointer-events: none; user-select: none;
+}
+/* the picture failed to load: show the name's first letter instead */
+.buddy-sticker[data-initial]::before {
+  content: attr(data-initial); position: absolute; inset: 0; display: grid; place-items: center;
+  font-weight: 700; font-size: 26px; color: #6a5a7a;
+}
+
+/* the soft shadow on the "ground" (JS shrinks it while the sticker is in the air) */
+.buddy-shadow {
+  position: absolute; left: 50%; bottom: -3px; width: 46px; height: 7px; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(0, 0, 0, 0.42), rgba(0, 0, 0, 0));
+  transform: translateX(-50%);
+}
+
+/* asleep: leans over and dims a little; the JS loop is stopped, a slow CSS breath keeps it alive */
+.buddy.is-asleep .buddy-sticker { transform: rotate(14deg) translateY(2px); filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.3)) brightness(0.8) saturate(0.85); }
+.buddy.is-asleep .buddy-body { animation: buddy-breathe 3.2s steps(8) infinite; }
+@keyframes buddy-breathe { 50% { transform: scale(1.03, 0.96); } }
+
+/* emote bubbles (heart, "!", "zZ", music note) above the head */
+.buddy-emote {
+  position: absolute; left: 50%; bottom: 66px; margin-left: 8px; width: 28px; height: 29px;
+  opacity: 0; transform: scale(0.4); transform-origin: 0 100%;
+  transition: opacity 0.18s, transform 0.18s;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+}
+.buddy-emote svg { display: block; }
+.buddy-emote.show { opacity: 1; transform: scale(1); animation: buddy-emote-pop 0.32s ease-out; }
+.buddy-emote.show[data-emote="sleep"] { animation: buddy-emote-float 3s ease-in-out infinite; }
+@keyframes buddy-emote-pop { 0% { transform: scale(0.4); } 60% { transform: scale(1.15); } 100% { transform: scale(1); } }
+@keyframes buddy-emote-float { 50% { transform: translateY(-3px); } }
+
+/* speech bubble: small, above the buddy, shifted (--shift) so it stays on screen */
+.buddy-bubble {
+  position: absolute; bottom: 76px; left: 50%;
+  transform: translateX(calc(-50% + var(--shift, 0px)));
+  padding: 5px 10px; border-radius: 12px;
+  background: #1a1a1a; border: 1px solid #2e2e2e; color: var(--text);
+  font-size: 12px; line-height: 16px; white-space: nowrap;
+  opacity: 0; transition: opacity 0.2s;
+}
+.buddy-bubble.show { opacity: 1; }
+
+/* hearts and sparkles */
+.buddy-fx { position: absolute; transform: translateX(-50%); font-size: 14px; line-height: 1; }
+.buddy-heart { color: #ff6b8b; animation: buddy-float 1.1s ease-out forwards; }
+.buddy-sparkle { color: #ffd25a; font-size: 11px; animation: buddy-pop 0.6s ease-out forwards; }
+@keyframes buddy-float { from { opacity: 1; transform: translate(-50%, 0) scale(0.7); } to { opacity: 0; transform: translate(-50%, -34px) scale(1.1); } }
+@keyframes buddy-pop { 0% { opacity: 0; transform: translate(-50%, 0) scale(0.4); } 40% { opacity: 1; } 100% { opacity: 0; transform: translate(-50%, -12px) scale(1.2); } }
+@keyframes buddy-fade { to { opacity: 0; } }
+
+/* Settings > Buddy: picker cards, each with an animated preview */
+.buddy-picks { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; margin-top: 14px; }
+.buddy-pick {
+  display: flex; flex-direction: column; gap: 8px; padding: 10px; border-radius: 14px;
+  border: 1px solid var(--control); background: transparent; color: var(--text); text-align: left;
+  font: inherit; cursor: pointer; transition: border-color 0.15s var(--ease);
+}
+.buddy-pick:hover { border-color: var(--muted); }
+.buddy-pick.active { border-color: var(--text); box-shadow: inset 0 0 0 1px var(--text); } /* taste-skill-ignore: inset outline, selection ring or floating overlay */
+.buddy-preview {
+  display: grid; place-items: end center; height: 84px; padding-bottom: 6px;
+  border-radius: 8px; background: var(--ground); border: 1px solid var(--border);
+  color: var(--faint); font-size: var(--fs-small);
+}
+.buddy-preview.is-none { place-items: center; }
+.buddy-preview .buddy-sticker { width: 56px; height: 64px; animation: buddy-preview-waddle 1.6s ease-in-out infinite; }
+@keyframes buddy-preview-waddle {
+  0%, 100% { transform: rotate(-6deg); }
+  25% { transform: translateY(-4px) rotate(0deg); }
+  50% { transform: rotate(6deg); }
+  75% { transform: translateY(-4px) rotate(0deg); }
+}
+.buddy-pick-plus { display: grid; place-items: center; width: 52px; height: 60px; margin-bottom: 2px; border-radius: 46% 46% 42% 42% / 44% 44% 40% 40%; border: 2px dashed var(--muted); color: var(--muted); font-size: 24px; }
+.buddy-pick-name { font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.buddy-pick-from { font-size: var(--fs-small); color: var(--faint); margin-top: -6px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.buddy-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 14px; }
+
+/* reduced motion: everything stands still (the buddy only fades) */
+@media (prefers-reduced-motion: reduce) {
+  .buddy-preview .buddy-sticker, .buddy.is-asleep .buddy-body, .buddy-emote.show { animation: none; }
+  .buddy-sticker { transition: none; }
+  .buddy-heart, .buddy-sparkle { animation: buddy-fade 1s ease-in forwards; }
+}

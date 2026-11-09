@@ -1,0 +1,88 @@
+/* The feel layer (AniShelf 1.2.1, see static/js/feel.js): press, ripple, busy, done, loading, page enter.
+   Short and quiet on purpose: white-ish ripples, ~150-450ms, transform/opacity only.
+   html[data-motion="calm"] and prefers-reduced-motion turn the moving parts off. */
+
+:root { --press-ease: cubic-bezier(0.2, 0.8, 0.2, 1); }
+
+/* ---- press: everything you can click dips a little while you hold it */
+button, .btn, a.card-link, a.lib-row, .nav a, .inbox-item, [role="tab"], [role="menuitem"], .fc-card, .chip {
+  transition-property: transform, background-color, color, border-color, box-shadow, opacity, filter;
+  transition-duration: 0.16s;
+  transition-timing-function: var(--press-ease);
+}
+button:active:not(:disabled), .btn:active:not(:disabled), [role="tab"]:active, [role="menuitem"]:active, .chip:active {
+  transform: scale(0.96);
+  transition-duration: 0.06s;
+}
+a.card-link:active, a.lib-row:active, .inbox-item:active, .fc-card:active, .nav a:active {
+  transform: scale(0.985);
+  transition-duration: 0.06s;
+}
+.ep:active:not(:disabled) { transform: scale(0.88); }
+
+/* ---- hover: covers lift towards you, rows light up */
+.card-link .cover { transition: transform 0.22s var(--press-ease), box-shadow 0.22s var(--press-ease); }
+.card-link:hover .cover { transform: translateY(-3px); }
+a.lib-row:hover { background: color-mix(in srgb, var(--text) 4%, transparent); }
+.nav a:hover { transform: translateX(2px); }
+
+/* ---- ripple */
+.ripple-host { position: absolute; inset: 0; overflow: hidden; border-radius: inherit; pointer-events: none; z-index: 0; }
+.ripple {
+  position: absolute; border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, currentColor 32%, transparent) 0%, transparent 65%);
+  transform: scale(0); opacity: 1;
+  animation: feel-ripple 0.6s var(--press-ease) forwards;
+}
+@keyframes feel-ripple { to { transform: scale(1); opacity: 0; } }
+
+/* ---- busy: the button's own label fades and a spinner turns in its place */
+.is-busy { color: transparent !important; cursor: progress; pointer-events: none; position: relative; }
+.is-busy svg { opacity: 0; }
+.is-busy::after {
+  content: ""; position: absolute; left: 50%; top: 50%; width: 14px; height: 14px; margin: -7px 0 0 -7px;
+  border-radius: 50%; border: 2px solid var(--muted); border-top-color: var(--text);
+  animation: spin 0.7s linear infinite;
+}
+.btn-primary.is-busy::after { border-color: #9a9a9a; border-top-color: #000; }
+
+/* ---- failed: a short "no" shake */
+.is-failed { animation: feel-shake 0.38s var(--press-ease); }
+@keyframes feel-shake { 20% { transform: translateX(-4px); } 40% { transform: translateX(4px); } 60% { transform: translateX(-2px); } 80% { transform: translateX(2px); } }
+
+/* ---- done: a ✓ floats up from where you clicked */
+.feel-tick {
+  position: fixed; z-index: 400; width: 22px; height: 22px; margin: -11px 0 0 -11px;
+  display: grid; place-items: center; border-radius: 50%;
+  background: var(--text); color: var(--ground); pointer-events: none;
+  animation: feel-tick 0.7s var(--press-ease) forwards;
+}
+.feel-tick svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+@keyframes feel-tick {
+  0% { transform: translateY(0) scale(0.4); opacity: 0; }
+  25% { transform: translateY(-10px) scale(1); opacity: 1; }
+  100% { transform: translateY(-34px) scale(0.9); opacity: 0; }
+}
+
+/* ---- loading line along the very top */
+.load-line {
+  position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 500; pointer-events: none;
+  background: var(--text); opacity: 0; transform-origin: left; transform: scaleX(0);
+}
+.load-line.on { opacity: 0.85; transform: scaleX(0.85); transition: transform 6s cubic-bezier(0.1, 0.7, 0.2, 1), opacity 0.15s; }
+.load-line.on.done { transform: scaleX(1); opacity: 0; transition: transform 0.2s ease-out, opacity 0.3s 0.1s; }
+
+/* ---- page enter */
+.view-enter { animation: feel-enter 0.26s var(--press-ease); }
+@keyframes feel-enter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+/* ---- calm mode and "reduce motion": keep colour feedback, drop the movement */
+:root[data-motion="calm"] .ripple-host, :root[data-motion="calm"] .feel-tick { display: none; }
+:root[data-motion="calm"] .view-enter, :root[data-motion="calm"] .is-failed { animation: none; }
+:root[data-motion="calm"] .card-link:hover .cover, :root[data-motion="calm"] .nav a:hover { transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .ripple-host, .feel-tick { display: none; }
+  .view-enter, .is-failed { animation: none; }
+  button:active, .btn:active, a.card-link:active, a.lib-row:active, .ep:active, .card-link:hover .cover, .nav a:hover { transform: none !important; }
+  .load-line.on { transition: opacity 0.15s; transform: scaleX(1); }
+}

@@ -1,0 +1,85 @@
+/* Library extras: bulk edit (select mode + sticky action bar) and custom collections.
+   Same house rules as app.css: flat, no glows, lightness for elevation, tokens for colours
+   so every theme works. JS: static/js/library-tools.js and static/js/collections-ui.js. */
+
+/* ------------------------------------------------------------ select mode */
+#lib-select.active { background: var(--text); border-color: var(--text); color: var(--ground, #000); }
+
+.is-selecting .card,
+.is-selecting .lib-row { position: relative; cursor: pointer; user-select: none; }
+.lib-list.is-selecting .lib-row { padding-left: 36px; }
+
+/* the check box: absolutely placed, so it never takes a grid column in the list view */
+.sel-box {
+  position: absolute; z-index: 3; width: 20px; height: 20px;
+  border-radius: 6px; border: 1.5px solid var(--muted); background: var(--surface);
+  display: grid; place-items: center; pointer-events: none;
+}
+.card > .sel-box { top: 8px; left: 8px; }
+/* make room for the check box: the status badge moves right while selecting */
+.is-selecting .card .badge { translate: 28px 0; }
+.lib-row > .sel-box { left: 6px; top: 50%; translate: 0 -50%; }
+.is-selected > .sel-box { background: var(--text); border-color: var(--text); }
+.is-selected > .sel-box::after {
+  content: ""; width: 9px; height: 5px; margin-top: -2px;
+  border-left: 2px solid var(--ground, #000); border-bottom: 2px solid var(--ground, #000); rotate: -45deg;
+}
+.is-selecting .card .cover { transition: opacity 150ms ease; }
+.is-selecting .card:not(.is-selected) .cover { opacity: 0.72; }
+.is-selecting .lib-row.is-selected { background: var(--active); }
+
+/* ------------------------------------------------------------ sticky action bar */
+.bulk-bar {
+  position: sticky; bottom: 16px; z-index: 20; margin-top: 18px;
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px;
+  padding: 10px 12px 10px 18px; border-radius: var(--radius-inner);
+  background: var(--raised); border: 1px solid var(--border);
+}
+.bulk-bar[hidden] { display: none; }
+.bulk-count { font-weight: 500; }
+.bulk-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+
+/* ------------------------------------------------------------ collections */
+#lib-collection { max-width: 220px; }
+
+.coll-dot { display: inline-block; flex: none; width: 8px; height: 8px; border-radius: 50%; }
+
+.coll-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.coll-chip {
+  display: inline-flex; align-items: center; gap: 8px; height: 30px; padding: 0 6px 0 12px;
+  border-radius: 999px; background: var(--raised); font-size: 13px;
+}
+.coll-chip a { color: var(--text); }
+.coll-chip-x {
+  width: 22px; height: 22px; border-radius: 50%; border: 0; background: transparent;
+  color: var(--muted); font: inherit; font-size: 15px; line-height: 1; cursor: pointer;
+}
+.coll-chip-x:hover { color: var(--text); background: var(--active); }
+
+.coll-name-field { display: grid; gap: 6px; color: var(--muted); font-size: var(--fs-small); }
+.coll-name-field input { width: 100%; font-size: 14px; }
+
+/* the manager has more per row than a normal dialog, so its modal gets a bit wider */
+.modal:has(.coll-manage) { width: min(600px, 100%); }
+.coll-manage { display: grid; gap: 14px; }
+.coll-manage > .btn { justify-self: start; }
+.coll-manage-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.coll-manage-list li {
+  display: flex; align-items: center; gap: 10px; padding: 6px 0; border-top: 1px solid var(--border);
+}
+.coll-manage-list li:first-child { border-top: 0; }
+.coll-manage-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 500; }
+.coll-manage-list select { height: 30px; font-size: 13px; }
+
+@media (max-width: 640px) {
+  .bulk-bar { bottom: 8px; }
+  .coll-manage-list li { flex-wrap: wrap; }
+}
+
+/* 1.2.1: notice shown while "Group seasons" is off, so a stray click is easy to spot and undo */
+.lib-ungrouped {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  margin: 0 0 14px; padding: 10px 14px; border-radius: var(--radius-inner);
+  background: var(--raised); color: var(--muted); font-size: var(--fs-small);
+}
+.lib-ungrouped[hidden] { display: none; }

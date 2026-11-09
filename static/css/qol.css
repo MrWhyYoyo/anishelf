@@ -1,0 +1,77 @@
+/* Quality-of-life features: the Undo toast, the Ctrl+K quick jump and the auto-backup line.
+   Follows docs/DESIGN.md: true-black and flat, elevation by lightness only, the accent only on data. */
+
+/* ---------------------------------------------------------------- undo toast (ui.js toastUndo) */
+.toast-undo { display: flex; align-items: center; gap: 14px; cursor: default; }
+.toast-undo > span { flex: 1; min-width: 0; }
+.toast-undo-btn {
+  flex: none; height: 28px; padding: 0 12px; border-radius: var(--radius-control);
+  background: transparent; border: 1px solid var(--control); color: var(--text);
+  font: inherit; font-weight: 600; cursor: pointer;
+}
+.toast-undo-btn:hover { background: var(--raised); }
+.toast-undo-btn:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+.toast-undo-btn:disabled { opacity: 0.5; cursor: progress; }
+
+/* ---------------------------------------------------------------- Ctrl+K quick jump (palette.js) */
+/* z-index under the toasts (300) so "+1" and Undo toasts stay visible above the palette */
+.qk-overlay {
+  position: fixed; inset: 0; z-index: 250;
+  display: flex; justify-content: center; align-items: flex-start; padding: 12vh 16px 16px;
+  background: rgba(0, 0, 0, 0.7);
+  opacity: 0; transition: opacity 0.15s;
+}
+.qk-overlay.show { opacity: 1; }
+.qk {
+  width: min(620px, 100%); max-height: 70vh;
+  display: flex; flex-direction: column;
+  background: var(--surface); border: 1px solid var(--rule); border-radius: 16px; overflow: hidden;
+  transform: translateY(-6px); transition: transform 0.18s var(--ease);
+}
+.qk-overlay.show .qk { transform: none; }
+.qk-input {
+  width: 100%; height: 52px; padding: 0 18px;
+  background: transparent; border: 0; border-bottom: 1px solid var(--rule);
+  color: var(--text); font: inherit; font-size: 16px;
+}
+.qk-input:focus { outline: none; }
+.qk-input::placeholder { color: var(--faint); }
+.qk-list { list-style: none; margin: 0; padding: 6px; overflow-y: auto; flex: 1; }
+.qk-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 6px 8px; border-radius: var(--radius-inner); cursor: pointer;
+}
+.qk-row[aria-selected="true"] { background: var(--raised); }
+.qk-cover { flex: none; width: 32px; height: 44px; border-radius: 4px; object-fit: cover; background: var(--raised); }
+.qk-cover-blank { display: block; }
+.qk-command .qk-cover { height: 32px; background: transparent; border: 1px solid var(--control); border-radius: 6px; }
+.qk-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.qk-title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500; }
+.qk-sub { color: var(--muted); font-size: var(--fs-small); }
+.qk-progress { color: var(--accent-text); font-variant-numeric: tabular-nums; } /* data, so it may use the accent */
+.qk-hint { color: var(--faint); font-size: var(--fs-small); }
+.qk-plus {
+  flex: none; height: 28px; min-width: 44px; padding: 0 10px; border-radius: var(--radius-control);
+  background: transparent; border: 1px solid var(--control); color: var(--text);
+  font: inherit; font-weight: 600; font-variant-numeric: tabular-nums; cursor: pointer;
+}
+.qk-plus:hover { background: var(--text); color: var(--ground); border-color: var(--text); }
+.qk-empty { padding: 18px 12px; color: var(--muted); }
+.qk-help {
+  margin: 0; padding: 10px 14px; border-top: 1px solid var(--rule);
+  color: var(--faint); font-size: var(--fs-small);
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px;
+}
+.qk-help .kbd { margin-right: 2px; }
+@media (max-width: 640px) {
+  .qk-overlay { padding-top: 16px; }
+  .qk { max-height: calc(100vh - 32px); }
+  .qk-help { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .qk-overlay, .qk { transition: none; }
+}
+
+/* ---------------------------------------------------------------- Settings: automatic backups */
+.auto-backup { margin-top: 14px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; }
+.auto-backup-text { color: var(--muted); font-size: var(--fs-small); font-variant-numeric: tabular-nums; }

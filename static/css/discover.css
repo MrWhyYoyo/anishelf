@@ -1,0 +1,90 @@
+/* ==========================================================================
+   Seasonal chart (#/season), Up next queue (#/queue + Home card), taste profile (Stats)
+   Same house rules as app.css: neutral controls, the accent only on data.
+   ========================================================================== */
+
+/* ---------------------------------------------------------------- seasonal chart */
+.season-nav { display: flex; flex-wrap: wrap; gap: 8px; }
+.season-toolbar { margin-top: 0; }
+.season-toolbar .segmented button .faint { margin-left: 4px; font-weight: 400; }
+.season-toolbar .field-inline select { height: 32px; }
+.season-genres {
+  font-size: var(--fs-small); line-height: 16px; color: var(--faint); margin-top: -6px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.season-owned {
+  display: inline-flex; align-items: center; height: 30px; padding: 0 2px;
+  font-size: 13px; color: var(--muted); white-space: nowrap;
+}
+.season-owned .dot { margin-right: 6px; }
+@media (max-width: 640px) {
+  .season-toolbar .toolbar-right { margin-left: 0; width: 100%; justify-content: space-between; }
+  .season-toolbar .segmented { max-width: 100%; overflow-x: auto; }
+}
+
+/* ---------------------------------------------------------------- Up next queue page */
+.upnext-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.upnext-row {
+  display: grid; grid-template-columns: 18px 26px 40px minmax(0, 1fr) auto;
+  gap: 12px; align-items: center;
+  padding: 10px 0; border-top: 1px solid var(--rule);
+  background: var(--surface);
+  transition: opacity 0.15s var(--ease);
+}
+.upnext-row:first-child { border-top: 0; padding-top: 0; }
+.upnext-row .cover { width: 40px; border-radius: 4px; }
+.upnext-row .cover::before { font-size: 11px; }
+.upnext-row .q-title { color: var(--text); }
+.upnext-row.dragging { opacity: 0.4; }
+.upnext-grip { color: var(--faint); cursor: grab; display: grid; place-items: center; }
+.upnext-grip svg { width: 16px; height: 16px; fill: currentColor; stroke: none; }
+.upnext-row:active .upnext-grip { cursor: grabbing; }
+.upnext-pos { color: var(--muted); text-align: right; font-size: 13px; }
+.upnext-actions { display: flex; align-items: center; gap: 6px; }
+.upnext-actions .icon-btn { width: 30px; height: 30px; }
+.upnext-actions .icon-btn:disabled { opacity: 0.25; cursor: default; }
+.upnext-list > li:only-child:not(.upnext-row) { list-style: none; }
+@media (max-width: 640px) {
+  .upnext-row { grid-template-columns: 22px 36px minmax(0, 1fr); row-gap: 8px; }
+  .upnext-grip { display: none; } /* touch: dragging isn't available, the arrows are */
+  .upnext-row .cover { width: 36px; }
+  .upnext-actions { grid-column: 1 / -1; justify-content: flex-end; }
+}
+
+/* the small card on Home */
+.upnext-card { margin-bottom: var(--gap); }
+.upnext-mini .q-title { color: var(--text); }
+.upnext-mini > a { display: block; }
+
+/* ---------------------------------------------------------------- taste profile (Stats) */
+.taste-panel { margin-top: var(--gap); }
+.taste-summary { font-size: 15px; line-height: 22px; margin: -4px 0 16px; max-width: 760px; }
+.taste-kpis {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  background: transparent; border: 1px solid var(--rule); border-radius: var(--radius-inner);
+}
+.taste-kpis .kpi { padding: 14px 18px; }
+@media (max-width: 900px) {
+  .taste-kpis { grid-template-columns: minmax(0, 1fr); }
+  .taste-kpis .kpi { border-left: 0 !important; border-top: 1px solid #222; }
+  .taste-kpis .kpi:first-child { border-top: 0; }
+}
+.taste-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px var(--pad); margin-top: 6px; }
+.taste-grid h3 { margin-bottom: 12px; }
+.taste-grid .taste-sub-h { margin-top: 20px; }
+.taste-note { margin: -8px 0 10px; }
+@media (max-width: 1100px) { .taste-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 700px) { .taste-grid { grid-template-columns: minmax(0, 1fr); } }
+
+/* format split: one stacked bar, the accent fading out per format */
+.taste-split { display: flex; height: 10px; border-radius: 3px; overflow: hidden; background: var(--raised); }
+.taste-split span { display: block; height: 100%; }
+.seg-0 { background: var(--accent); }
+.seg-1 { background: rgba(var(--accent-rgb), 0.62); }
+.seg-2 { background: rgba(var(--accent-rgb), 0.36); }
+.seg-3 { background: #6b6b6b; }
+.seg-4 { background: #3d3d3d; }
+.taste-legend { list-style: none; margin: 12px 0 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.taste-legend li { display: flex; align-items: center; gap: 8px; }
+.taste-legend .num { margin-left: auto; }
+.taste-swatch { width: 10px; height: 10px; border-radius: 2px; flex: none; }

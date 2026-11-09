@@ -1,0 +1,48 @@
+/* ==========================================================================
+   Anime Wrapped (#/wrapped) and the Daily quests card.
+   Flat, like the stats page: --accent marks data only (bars, progress), never buttons.
+   ========================================================================== */
+
+/* ---------------------------------------------------------------- Wrapped */
+.wr-years { margin-bottom: var(--gap); }
+
+.wr-line { margin-bottom: var(--gap); }
+.wr-line h2 { font-size: var(--fs-section); font-weight: 500; color: var(--muted); }
+.wr-line p { font-size: var(--fs-title); line-height: 30px; font-weight: 500; margin-top: 8px; max-width: 60ch; }
+
+.wr-kpis .kpi-lead .kpi-value { font-size: 48px; line-height: 56px; }
+
+.wr-big { font-size: 32px; line-height: 40px; font-weight: 500; }
+.wr-missing { font-size: var(--fs-kpi); color: var(--faint); }
+
+.bar-chart .wr-bar-value { fill: var(--text); font-size: 12px; font-family: var(--font); font-variant-numeric: tabular-nums; }
+.bar-chart .wr-tick-strong { fill: var(--text); }
+
+.wr-show { display: flex; gap: 14px; align-items: flex-end; color: var(--text); text-decoration: none; }
+.wr-show:hover .wr-show-title { text-decoration: underline; }
+.wr-show .wr-cover { width: 84px; flex: none; }
+.wr-show-text { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.wr-show-title { font-size: var(--fs-section); font-weight: 500; overflow-wrap: anywhere; }
+
+.wr-top { list-style: none; margin: 16px 0 0; padding: 12px 0 0; border-top: 1px solid var(--rule); display: grid; gap: 8px; }
+.wr-top li { display: grid; grid-template-columns: 20px minmax(0, 1fr) auto; gap: 10px; align-items: baseline; }
+.wr-top a { color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.wr-top a:hover { color: var(--text); }
+.wr-rank { color: var(--faint); }
+
+@media (max-width: 640px) {
+  .wr-kpis .kpi-lead .kpi-value { font-size: 40px; line-height: 48px; }
+  .wr-line p { font-size: var(--fs-section); line-height: 24px; }
+}
+
+/* ---------------------------------------------------------------- Daily quests card */
+.quest-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.quest { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 12px; align-items: center; }
+.quest-top { display: contents; }
+.quest-text { min-width: 0; }
+.quest-xp { color: var(--muted); font-size: var(--fs-small); text-align: right; }
+.quest-bar { grid-column: 1; height: 4px; background: var(--cell-empty); border-radius: 2px; overflow: hidden; }
+.quest-bar > span { display: block; height: 100%; background: var(--accent); transition: width 0.25s var(--ease); }
+.quest-count { text-align: right; }
+.quest.done .quest-text { color: var(--muted); }
+.quest.done .quest-xp { color: var(--text); }

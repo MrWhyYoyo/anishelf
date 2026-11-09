@@ -1,0 +1,29 @@
+# personal data, caches and window profile
+data/
+*.db
+*.part
+
+# python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# secrets (none are needed, but just in case)
+.env
+
+# editors / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# local-only tooling (screenshots of the owner's library, local launch configs)
+.taste-skill/
+.claude/
+
+# backups and exports of a personal library
+*.json.bak
+anishelf-backup*.json
+.env.*
+!.env.example
